@@ -1,0 +1,5 @@
+hyperon
+langchain-core
+langchain-google-genai
+google-api-core
+dotenv
