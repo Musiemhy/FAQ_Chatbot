@@ -2,6 +2,7 @@ import os
 import time
 import json
 import re
+from flask import Flask, render_template, request, jsonify
 from hyperon import MeTTa
 from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -136,15 +137,17 @@ def process_query(user_input):
     response = call_llm_with_retry(messages)
     return response if response else "Sorry, I couldn't process your request."
 
-def main():
-    print("Healthcare Chatbot is ready. Type 'exit' to quit.")
-    while True:
-        user_input = input("\nAsk a healthcare question: ").strip()
-        if user_input.lower() in ['exit', 'quit']:
-            break
-        
-        answer = process_query(user_input)
-        print("\nAnswer:\n", answer.content)
+app = Flask(__name__)
 
-if __name__ == "__main__":
-    main()
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/ask', methods=['POST'])
+def ask():
+    user_input = request.form.get('query')
+    answer = process_query(user_input)
+    return jsonify({'answer': answer.content})
+
+if __name__ == '__main__':
+    app.run(debug=True)

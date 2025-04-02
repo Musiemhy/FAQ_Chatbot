@@ -23,8 +23,9 @@ GOOGLE_API_KEY=your_google_api_key_here
 ### 4. Run the Chatbot
 Start the chatbot using:
 ```sh
-python app.py
+flask run --debug
 ```
+- Then you can access the webpage on http://127.0.0.1:5000
 
 ## Usage
 - Enter healthcare-related questions such as:
